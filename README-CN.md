@@ -1,0 +1,156 @@
+# Gardenia NixOS 配置
+
+[**English Version**](README.md)
+
+基于 Flakes 构建，集成 Home Manager 管理用户环境，使用 agenix 处理密钥，采用混合桌面方案（niri + Noctalia + COSMIC）。
+
+![fastfetch](https://github.com/wuuixm/img-bed/blob/main/nixos/fastfetch.png)
+
+## 项目结构
+
+```
+├── flake.nix                      # 入口，定义 Gardenia 配置及依赖
+├── flake.lock                     # 锁定依赖版本，确保可复现
+├── hardware-configuration.nix     # nixos-generate-config 自动生成的硬件配置
+│
+├── os-modules/                    # NixOS 系统模块（自动导入子目录）
+│   ├── boot/                      # GRUB 引导、内核参数、zram
+│   ├── desktop/                   # niri、Noctalia、Ly 显示管理器、Portal
+│   ├── hardware/                  # PipeWire、NVIDIA Prime、asusd、蓝牙
+│   ├── locale/                    # 时区、语言、fcitx5 输入法、字体
+│   ├── nix/                       # Flakes 配置、垃圾回收、Nix 优化
+│   ├── services/                  # SSH、NetworkManager、Flatpak、Steam、Docker
+│   ├── users/                     # 用户 wuuixm 定义
+│   └── virtualisation/            # libvirtd + virt-manager
+│
+├── hm-modules/                    # Home Manager 模块（自动导入子目录）
+│   ├── default.nix                # 入口：用户名、XDG 目录、环境变量、基础软件包
+│   ├── agenix/                    # 密钥管理（aria2-rpc-secret, github-token）
+│   ├── aria2/                     # Aria2 下载器（systemd 用户服务）
+│   ├── btop/                      # btop 系统监视器
+│   ├── evil-helix/                # Helix 编辑器（evil-helix 分支）
+│   ├── fastfetch/                 # 系统信息显示（neofetch 替代）
+│   ├── fish/                      # Fish 终端（vi 模式、缩写）
+│   ├── ghostty/                   # Ghostty 终端模拟器（自定义着色器）
+│   ├── git/                       # Git 配置（GitHub OAuth 认证）
+│   ├── lazygit/                   # LazyGit TUI 客户端（delta diff）
+│   ├── neovim/                    # Neovim 编辑器（oil.nvim, fzf-lua, catppuccin）
+│   ├── niri/                      # niri 合成器原始配置
+│   ├── noctalia/                  # Noctalia 桌面 shell
+│   ├── opencode/                  # OpenCode AI 编程助手
+│   ├── rime/                      # RIME（fcitx5）双拼输入方案
+│   ├── starship/                  # Starship 终端提示符
+│   ├── tealdeer/                  # tealdeer（命令速查手册）
+│   ├── yazi/                      # Yazi 终端文件管理器
+│   └── zed/                       # Zed 编辑器
+│
+├── tools/
+│   └── edit-password              # agenix 密钥交互管理工具（Python polyglot）
+```
+
+## 软件清单
+
+### Home Manager – 用户软件包
+
+| 软件包 | 说明 |
+|--------|------|
+| [splayer](https://github.com/chiflix/splayerx) | 在线流媒体播放器 |
+| [hmcl](https://hmcl.huangyuhui.net/) | Hello Minecraft! 启动器 |
+| [evtest](https://cgit.freedesktop.org/evtest/) | 输入事件调试工具 |
+| [wl-clipboard](https://github.com/bugaevc/wl-clipboard) | Wayland 剪贴板工具 |
+| [cliphist](https://github.com/sentriz/cliphist) | Wayland 剪贴板历史 |
+| [polkit_gnome](https://gitlab.freedesktop.org/PolicyKit/polkit) | 授权认证代理 |
+| [fd](https://github.com/sharkdp/fd) | 文件快速搜索（Rust） |
+| [jq](https://jqlang.github.io/jq/) | JSON 处理器 |
+| [chafa](https://hpjansson.org/chafa/) | 图片转 ASCII 工具 |
+| [ouch](https://github.com/ouch-org/ouch) | 归档压缩工具（Rust） |
+| [dust](https://github.com/bootandy/dust) | 磁盘空间分析（Rust） |
+| [sd](https://github.com/chmln/sd) | sed 替代工具（Rust） |
+| [fzf](https://github.com/junegunn/fzf) | 模糊搜索工具 |
+| [ripgrep](https://github.com/BurntSushi/ripgrep) | 代码搜索工具（Rust） |
+| [manix](https://github.com/mlvzk/manix) | Nix 文档搜索 |
+| [fastfetch](https://github.com/fastfetch-cli/fastfetch) | 系统信息显示 |
+| [google-chrome](https://www.google.com/chrome/) | 网页浏览器 |
+| [Helium](https://github.com/schembriaiden/helium-browser-nix-flake) | 极简浏览器 |
+| [mpv](https://mpv.io/) | 媒体播放器 |
+| [imv](https://sr.ht/~exec64/imv/) | 图片查看器（Wayland） |
+| [wl-screenrec](https://github.com/russelltg/wl-screenrec) | Wayland 屏幕录制（Rust） |
+| [slurp](https://github.com/emersion/slurp) | Wayland 区域选择工具（Rust） |
+| [rustup](https://rustup.rs/) | Rust 工具链管理器 |
+| [uv](https://github.com/astral-sh/uv) | Python 包管理器（Rust） |
+| [fnm](https://github.com/Schniz/fnm) | Node.js 版本管理器（Rust） |
+| [mdcat](https://github.com/swsnr/mdcat) | Markdown 渲染器（Rust） |
+| [docker-compose](https://github.com/docker/compose) | Docker 编排工具 |
+| [gcc](https://gcc.gnu.org/) | C/C++ 编译器 |
+| [binutils](https://www.gnu.org/software/binutils/) | 二进制工具集 |
+
+### Home Manager – 已配置的程序与服务
+
+| 程序 | 说明 |
+|------|------|
+| [bat](https://github.com/sharkdp/bat) | `cat` 替代，带语法高亮（Rust） |
+| [lsd](https://github.com/lsd-rs/lsd) | `ls` 替代，带图标和颜色（Rust） |
+| [zoxide](https://github.com/ajeetdsouza/zoxide) | 智能目录跳转（Rust） |
+| [btop](https://github.com/aristocratos/btop) | 系统资源监视器 |
+| [Helix (evil-helix)](https://github.com/The-Devoy/evil-helix) | 模态编辑器（Helix vim 分支） |
+| [Ghostty](https://ghostty.org/) | GPU 加速终端模拟器 |
+| [lazygit](https://github.com/jesseduffield/lazygit) | Git TUI 客户端 |
+| [Neovim](https://neovim.io/) | 可扩展代码编辑器 |
+| [Noctalia](https://github.com/noctalia-dev/noctalia) | COSMIC/niri 桌面 Shell |
+| [niri](https://github.com/YaLTeR/niri) | 滚动平铺 Wayland 合成器 |
+| [Starship](https://starship.rs/) | 跨 Shell 提示符 |
+| [tealdeer](https://github.com/tealdeer-rs/tealdeer) | 命令速查手册（Rust） |
+| [Yazi](https://github.com/sxyazi/yazi) | 终端文件管理器（Rust） |
+| [Zed](https://zed.dev/) | 高性能代码编辑器 |
+| [OpenCode](https://opencode.ai) | AI 编程助手 CLI/TUI |
+| [Aria2](https://aria2.github.io/) | 下载管理器（支持 RPC/BT） |
+| [udiskie](https://github.com/coldfix/udiskie) | 可移动介质自动挂载 |
+| ssh-agent | SSH 密钥代理 |
+
+### 系统级别 – 软件包与服务
+
+| 软件包 / 服务 | 说明 |
+|---------------|------|
+| [asusctl](https://gitlab.com/asus-linux/asusctl) | ASUS ROG 笔记本控制 |
+| [Clash Verge](https://github.com/clash-verge-rev/clash-verge-rev) | 代理客户端（TUN + 服务模式） |
+| [Steam](https://store.steampowered.com/) | 游戏平台 |
+| [Docker](https://www.docker.com/) | 容器运行时（Rootless） |
+| [libvirtd](https://libvirt.org/) + [virt-manager](https://virt-manager.org/) | 虚拟机管理 |
+| [Flatpak](https://flatpak.org/) | 通用包管理器 |
+| [OpenSSH](https://www.openssh.com/) | 远程连接 |
+| [NetworkManager](https://networkmanager.dev/) | 网络管理 |
+| [PipeWire](https://pipewire.org/) | 音频系统（ALSA + PulseAudio） |
+| [NVIDIA Prime](https://wiki.archlinux.org/title/PRIME) | 双显卡切换 |
+| [fcitx5](https://github.com/fcitx/fcitx5) | 输入法框架（RIME 引擎） |
+| [GRUB](https://www.gnu.org/software/grub/) | 引导加载器（EFI + Cryptodisk） |
+| [Ly](https://github.com/fairyglade/ly) | TUI 显示管理器 |
+
+## 工具
+
+### edit-password
+
+一个自包含的 Python polyglot 脚本，用于交互式管理 agenix 加密密钥，支持添加/编辑/删除公钥和密码，自动备份快照，误操作可一键回滚。
+
+```bash
+cd ./tools
+./edit-password
+```
+
+## 小贴士
+
+### Fish 自动生成缩写
+
+`hm-modules/fish/default.nix` 遍历 `hm-modules` 下所有子目录，自动为每个模块生成 `i<模块名>` 缩写，一键用编辑器打开对应模块配置。
+
+- `ifish` → 打开 fish 配置
+- `igit` → 打开 git 配置
+- `iniri` → 打开 niri 配置
+- ……所有模块同理
+
+### Auto-import 模块自动发现
+
+`os-modules/default.nix` 和 `hm-modules/default.nix` 通过 `builtins.readDir` 自动导入所有子目录。新增模块只需创建目录，无需手动修改 imports。
+
+### NixOS Secrets 统一管理
+
+`tools/edit-password` 使用 polyglot 技巧（同一文件可同时作为 shell/python 运行），交互式管理 agenix 密钥，支持增删改查，自动备份快照，误操作可一键回滚。
