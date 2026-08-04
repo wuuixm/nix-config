@@ -1,0 +1,38 @@
+window-rule {
+    // This app-id regular expression will work for both:
+    // - host Firefox (app-id is "firefox")
+    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
+    // match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    // match app-id="waypaper"
+    // match app-id="mihomo-party"
+    match app-id="clash-verge"
+    // match title="Vivaldi 设置: 一般 - Vivaldi"
+    // match title="flameshot-pin"
+    match title="哔哩哔哩 (゜-゜)つロ 干杯~-bilibili"
+    match app-id="blueman-manager"
+    match title="satty"
+
+    open-floating true
+}
+
+window-rule {
+    geometry-corner-radius 10 
+    clip-to-geometry true
+    // opacity 0.95
+    draw-border-with-background false
+}
+window-rule {
+    background-effect {
+        blur true
+        xray true
+    }
+}
+debug {
+    honor-xdg-activation-with-invalid-serial
+}
+
+// Set the overview wallpaper on the backdrop.
+layer-rule {
+  match namespace="^noctalia-backdrop"
+  place-within-backdrop true
+}

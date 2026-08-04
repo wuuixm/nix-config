@@ -1,0 +1,10 @@
+spawn-at-startup "fcitx5" "-d"
+
+spawn-at-startup "/libexec/polkit-gnome-authentication-agent-1"
+
+spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
+
+spawn-sh-at-startup "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri"
+
+spawn-at-startup "noctalia"
