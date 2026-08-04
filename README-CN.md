@@ -2,7 +2,7 @@
 
 [**English Version**](README.md)
 
-基于 Flakes 构建，集成 Home Manager 管理用户环境，使用 agenix 处理密钥，采用混合桌面方案（niri + Noctalia + COSMIC）。
+基于 Flakes 构建，集成 Home Manager 管理用户环境，使用 agenix 处理加密密钥，在 ASUS ROG 笔记本（AMD 核显 + NVIDIA Prime）上采用混合桌面方案（niri + Noctalia + COSMIC）。
 
 ![fastfetch](https://github.com/wuuixm/img-bed/blob/main/nixos/fastfetch.png)
 
@@ -10,43 +10,75 @@
 
 ```
 ├── flake.nix                      # 入口，定义 Gardenia 配置及依赖
+│                                  # （substituters：中科大/清华镜像 + cache.nixos.org）
 ├── flake.lock                     # 锁定依赖版本，确保可复现
 ├── hardware-configuration.nix     # nixos-generate-config 自动生成的硬件配置
 │
-├── os-modules/                    # NixOS 系统模块（自动导入子目录）
-│   ├── boot/                      # GRUB 引导、内核参数、zram
-│   ├── desktop/                   # niri、Noctalia、Ly 显示管理器、Portal
-│   ├── hardware/                  # PipeWire、NVIDIA Prime、asusd、蓝牙
-│   ├── locale/                    # 时区、语言、fcitx5 输入法、字体
-│   ├── nix/                       # Flakes 配置、垃圾回收、Nix 优化
-│   ├── services/                  # SSH、NetworkManager、Flatpak、Steam、Docker
-│   ├── users/                     # 用户 wuuixm 定义
+├── os-modules/                    # NixOS 系统模块（readDir 自动导入子目录）
+│   ├── boot/                      # GRUB（EFI + Cryptodisk + os-prober）、内核参数、zram
+│   ├── desktop/                   # COSMIC + niri、Ly 显示管理器、Portal、控制台字体
+│   ├── hardware/                  # PipeWire、NVIDIA Prime（supergfxd）、asusd、蓝牙
+│   ├── locale/                    # 主机名、时区、语言、fcitx5（RIME）输入法、字体
+│   ├── nix/                       # Flakes 配置、nix-ld、每周垃圾回收、Nix 优化、allowUnfree
+│   ├── services/                  # SSH、NetworkManager、Flatpak、Steam、Docker、Clash Verge
+│   ├── users/                     # 用户 wuuixm 定义（fish shell）
 │   └── virtualisation/            # libvirtd + virt-manager
 │
-├── hm-modules/                    # Home Manager 模块（自动导入子目录）
-│   ├── default.nix                # 入口：用户名、XDG 目录、环境变量、基础软件包
+├── hm-modules/                    # Home Manager 模块（readDir 自动导入子目录）
+│   ├── default.nix                # 入口：用户名、XDG 目录、环境变量、基础软件包与服务
 │   ├── agenix/                    # 密钥管理（aria2-rpc-secret, github-token）
-│   ├── aria2/                     # Aria2 下载器（systemd 用户服务）
+│   ├── aria2/                     # Aria2 下载器（systemd 用户服务，RPC :6800）
 │   ├── btop/                      # btop 系统监视器
-│   ├── evil-helix/                # Helix 编辑器（evil-helix 分支）
-│   ├── fastfetch/                 # 系统信息显示（neofetch 替代）
-│   ├── fish/                      # Fish 终端（vi 模式、缩写）
-│   ├── ghostty/                   # Ghostty 终端模拟器（自定义着色器）
-│   ├── git/                       # Git 配置（GitHub OAuth 认证）
-│   ├── lazygit/                   # LazyGit TUI 客户端（delta diff）
-│   ├── neovim/                    # Neovim 编辑器（oil.nvim, fzf-lua, catppuccin）
-│   ├── niri/                      # niri 合成器原始配置
-│   ├── noctalia/                  # Noctalia 桌面 shell
-│   ├── opencode/                  # OpenCode AI 编程助手
+│   ├── evil-helix/                # Helix 编辑器（evil-helix vim 分支）
+│   ├── fastfetch/                 # 系统信息显示（自动选择 logo、自定义边框）
+│   ├── fish/                      # Fish 终端（vi 模式、自动生成 i<模块名> 缩写）
+│   ├── ghostty/                   # Ghostty 终端模拟器（自定义 GLSL 着色器）
+│   ├── git/                       # Git 配置（GitHub OAuth，GITHUB_TOKEN）
+│   ├── lazygit/                   # LazyGit TUI 客户端（delta diff 分页）
+│   ├── neovim/                    # Neovim 编辑器（oil.nvim, fzf-lua, mini.pairs, catppuccin）
+│   ├── niri/                      # niri 合成器原始 KDL 配置
+│   ├── noctalia/                  # Noctalia 桌面 shell（顶栏、锁屏组件、bongocat）
+│   ├── opencode/                  # OpenCode AI 编程助手（DeepSeek）
 │   ├── rime/                      # RIME（fcitx5）双拼输入方案
-│   ├── starship/                  # Starship 终端提示符
+│   ├── rust/                      # rust-overlay 提供的 Rust 工具链（rust-analyzer, rust-src）
+│   ├── starship/                  # Starship 终端提示符（自定义配色）
 │   ├── tealdeer/                  # tealdeer（命令速查手册）
-│   ├── yazi/                      # Yazi 终端文件管理器
-│   └── zed/                       # Zed 编辑器
+│   ├── yazi/                      # Yazi 终端文件管理器（rose-pine-moon）
+│   └── zed/                       # Zed 编辑器（catppuccin、DeepSeek 智能体）
 │
 ├── tools/
 │   └── edit-password              # agenix 密钥交互管理工具（Python polyglot）
 ```
+
+## 使用方法
+
+### 前置要求
+
+- 已启用 Flakes 的 NixOS
+- `~/.ssh/id_ed25519` SSH 密钥（作为 agenix 身份密钥）
+- 首次切换前先运行 `./tools/edit-password` 生成 age 密钥
+
+### 系统切换
+
+```bash
+# 切换系统（主机名：Gardenia）
+sudo nixos-rebuild switch --flake ~/nixos-Gardenia#Gardenia
+
+# 更新所有 flake 输入
+nix flake update --flake ~/nixos-Gardenia
+```
+
+Fish 已提供对应缩写（见 `hm-modules/fish/default.nix`）：
+
+| 缩写 | 命令 |
+|------|------|
+| `rd` | `sudo nixos-rebuild switch --flake ~/nixos-Gardenia#Gardenia` |
+| `upd` | `nix flake update --flake ~/nixos-Gardenia` |
+| `gc` | `nix-collect-garbage -d && sudo nix-collect-garbage -d` |
+| `ips` | `~/nixos-Gardenia/tools/edit-password` |
+| `ifk` / `ihm` / `ish` | 用 `$EDITOR` 打开 `flake.nix` / `hm-modules/default.nix` / fish 配置 |
+| `i<模块名>` | 打开任意 hm 模块配置（为每个模块自动生成） |
+| `nrs` / `zed` / `bp` / `ff` | `niri-session` / `zeditor` / `btop` / `fastfetch` |
 
 ## 软件清单
 
@@ -54,6 +86,7 @@
 
 | 软件包 | 说明 |
 |--------|------|
+| [clang-tools](https://clang.llvm.org/) | C/C++ LSP（clangd）及工具 |
 | [splayer](https://github.com/chiflix/splayerx) | 在线流媒体播放器 |
 | [hmcl](https://hmcl.huangyuhui.net/) | Hello Minecraft! 启动器 |
 | [evtest](https://cgit.freedesktop.org/evtest/) | 输入事件调试工具 |
@@ -71,12 +104,11 @@
 | [manix](https://github.com/mlvzk/manix) | Nix 文档搜索 |
 | [fastfetch](https://github.com/fastfetch-cli/fastfetch) | 系统信息显示 |
 | [google-chrome](https://www.google.com/chrome/) | 网页浏览器 |
-| [Helium](https://github.com/schembriaiden/helium-browser-nix-flake) | 极简浏览器 |
+| [Helium](https://github.com/schembriaiden/helium-browser-nix-flake) | 极简浏览器（flake 输入） |
 | [mpv](https://mpv.io/) | 媒体播放器 |
 | [imv](https://sr.ht/~exec64/imv/) | 图片查看器（Wayland） |
 | [wl-screenrec](https://github.com/russelltg/wl-screenrec) | Wayland 屏幕录制（Rust） |
 | [slurp](https://github.com/emersion/slurp) | Wayland 区域选择工具（Rust） |
-| [rustup](https://rustup.rs/) | Rust 工具链管理器 |
 | [uv](https://github.com/astral-sh/uv) | Python 包管理器（Rust） |
 | [fnm](https://github.com/Schniz/fnm) | Node.js 版本管理器（Rust） |
 | [mdcat](https://github.com/swsnr/mdcat) | Markdown 渲染器（Rust） |
@@ -93,37 +125,42 @@
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | 智能目录跳转（Rust） |
 | [btop](https://github.com/aristocratos/btop) | 系统资源监视器 |
 | [Helix (evil-helix)](https://github.com/The-Devoy/evil-helix) | 模态编辑器（Helix vim 分支） |
-| [Ghostty](https://ghostty.org/) | GPU 加速终端模拟器 |
-| [lazygit](https://github.com/jesseduffield/lazygit) | Git TUI 客户端 |
-| [Neovim](https://neovim.io/) | 可扩展代码编辑器 |
+| [Ghostty](https://ghostty.org/) | GPU 加速终端模拟器（自定义着色器） |
+| [lazygit](https://github.com/jesseduffield/lazygit) | Git TUI 客户端（delta 分页） |
+| [Neovim](https://neovim.io/) | 可扩展代码编辑器（catppuccin-mocha） |
 | [Noctalia](https://github.com/noctalia-dev/noctalia) | COSMIC/niri 桌面 Shell |
 | [niri](https://github.com/YaLTeR/niri) | 滚动平铺 Wayland 合成器 |
 | [Starship](https://starship.rs/) | 跨 Shell 提示符 |
 | [tealdeer](https://github.com/tealdeer-rs/tealdeer) | 命令速查手册（Rust） |
-| [Yazi](https://github.com/sxyazi/yazi) | 终端文件管理器（Rust） |
-| [Zed](https://zed.dev/) | 高性能代码编辑器 |
-| [OpenCode](https://opencode.ai) | AI 编程助手 CLI/TUI |
-| [Aria2](https://aria2.github.io/) | 下载管理器（支持 RPC/BT） |
+| [Yazi](https://github.com/sxyazi/yazi) | 终端文件管理器（Rust，rose-pine-moon） |
+| [Zed](https://zed.dev/) | 高性能代码编辑器（DeepSeek 智能体） |
+| [OpenCode](https://opencode.ai) | AI 编程助手 CLI/TUI（DeepSeek） |
+| Rust 工具链 | rust-overlay stable + rust-analyzer + rust-src |
+| [satty](https://github.com/gabm/satty) | Wayland 截图工具（Noctalia 截图管道） |
+| [Aria2](https://aria2.github.io/) | 下载管理器（systemd 用户服务，RPC :6800） |
 | [udiskie](https://github.com/coldfix/udiskie) | 可移动介质自动挂载 |
 | ssh-agent | SSH 密钥代理 |
+| home-manager | Home Manager 程序 |
 
 ### 系统级别 – 软件包与服务
 
 | 软件包 / 服务 | 说明 |
 |---------------|------|
 | [asusctl](https://gitlab.com/asus-linux/asusctl) | ASUS ROG 笔记本控制 |
-| [Clash Verge](https://github.com/clash-verge-rev/clash-verge-rev) | 代理客户端（TUN + 服务模式） |
+| [Clash Verge](https://github.com/clash-verge-rev/clash-verge-rev) | 代理客户端（TUN + 服务模式，开机自启） |
 | [Steam](https://store.steampowered.com/) | 游戏平台 |
 | [Docker](https://www.docker.com/) | 容器运行时（Rootless） |
-| [libvirtd](https://libvirt.org/) + [virt-manager](https://virt-manager.org/) | 虚拟机管理 |
+| [libvirtd](https://libvirt.org/) + [virt-manager](https://virt-manager.org/) | 虚拟机管理（QEMU/KVM + swtpm） |
 | [Flatpak](https://flatpak.org/) | 通用包管理器 |
 | [OpenSSH](https://www.openssh.com/) | 远程连接 |
 | [NetworkManager](https://networkmanager.dev/) | 网络管理 |
-| [PipeWire](https://pipewire.org/) | 音频系统（ALSA + PulseAudio） |
-| [NVIDIA Prime](https://wiki.archlinux.org/title/PRIME) | 双显卡切换 |
-| [fcitx5](https://github.com/fcitx/fcitx5) | 输入法框架（RIME 引擎） |
-| [GRUB](https://www.gnu.org/software/grub/) | 引导加载器（EFI + Cryptodisk） |
-| [Ly](https://github.com/fairyglade/ly) | TUI 显示管理器 |
+| [PipeWire](https://pipewire.org/) | 音频系统（ALSA + PulseAudio，rtkit） |
+| [NVIDIA Prime](https://wiki.archlinux.org/title/PRIME) | 双显卡切换（supergfxd，amdgpu + nvidia） |
+| [fcitx5](https://github.com/fcitx/fcitx5) | 输入法框架（RIME + 双拼） |
+| [GRUB](https://www.gnu.org/software/grub/) | 引导加载器（EFI + Cryptodisk + os-prober，crt-amber 主题） |
+| [Ly](https://github.com/fairyglade/ly) | TUI 显示管理器（blackhole.dur 动画） |
+| [xwayland-satellite](https://github.com/Supreeeme/xwayland-satellite) | Wayland 原生 XWayland |
+| zramSwap | 压缩内存交换分区 |
 
 ## 工具
 
