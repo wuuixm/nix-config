@@ -1,0 +1,34 @@
+# Nix build artifacts
+result
+result-*
+
+# macOS
+.DS_Store
+
+# direnv
+.direnv/
+.envrc
+
+# Editor / IDE
+*~
+*.swp
+*.swo
+*.swn
+*.bak
+.idea/
+.vscode/
+
+# Python (for tools/edit-password)
+__pycache__/
+*.pyc
+*.pyo
+
+# agenix backups
+*.age.bak
+*.age.old
+
+# Environment files
+.env
+
+# Temp files
+*.tmp
