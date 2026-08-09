@@ -25,7 +25,7 @@
         end = [ "tray" "network" "bluetooth" "volume" "brightness" "battery" "group:g2" ];
         margin_ends = 0;
         padding = 8;
-        start = [ "workspaces" "audio_visualizer" "privacy" "media" "active_window" ];
+        start = [ "workspaces" "audio_visualizer" "privacy" "media" "active_window" "screen-toolkit" ];
 
         capsule_group = [
           {
@@ -175,7 +175,14 @@
 
       # ---------- plugin settings ----------
       plugins = {
-        enabled = [ "noctalia/bongocat" ];
+        enabled = [ "noctalia/bongocat" "alexander/screen-toolkit" ];
+      };
+
+      # ---------- plugin_settings ----------
+      plugin_settings = {
+        "alexander/screen-toolkit" = {
+          selected-ocr-lang = "eng+chi_sim";
+        };
       };
 
       # ---------- shell ----------

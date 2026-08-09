@@ -5,6 +5,7 @@ let
   allNames = builtins.attrNames entries;
   dirNames = builtins.filter (name: entries.${name} == "directory") allNames;
   autoImports = map (dir: ./. + "/${dir}") dirNames;
+  tesseract-ocr = pkgs.tesseract.override { enableLanguages = [ "eng" "chi_sim" ]; };
 in
 {
   # 导入子模块
@@ -40,6 +41,15 @@ in
   home.packages = with pkgs; [
     clang-tools
     splayer
+    grim
+    hyprpicker
+    imagemagick
+    tesseract-ocr
+    zbar
+    ffmpeg
+    bc
+    gpu-screen-recorder
+    wf-recorder
     hmcl
     evtest
     wl-clipboard
