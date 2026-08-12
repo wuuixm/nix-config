@@ -370,4 +370,4 @@ window-rule {
 
 
 
-include "noctalia.kdl"
+include "~/.config/matugen/outputs/niri-colors.kdl"

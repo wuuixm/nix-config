@@ -8,6 +8,7 @@
       # theme = "Violet Dark";
       theme = "Xcode Dark";
       # theme = "Rose Pine Moon";
+      # theme = "Matugen";
 
       background-opacity = 0.7;
       window-decoration = "none";

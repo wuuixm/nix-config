@@ -32,12 +32,14 @@
 │   ├── evil-helix/                # Helix 编辑器（evil-helix vim 分支）
 │   ├── fastfetch/                 # 系统信息显示（自动选择 logo、自定义边框）
 │   ├── fish/                      # Fish 终端（vi 模式、自动生成 i<模块名> 缩写）
-│   ├── ghostty/                   # Ghostty 终端模拟器（自定义 GLSL 着色器）
+│   ├── ghostty/                   # Ghostty 终端模拟器（自定义 GLSL 着色器、Matugen 主题）
 │   ├── git/                       # Git 配置（GitHub OAuth，GITHUB_TOKEN）
 │   ├── lazygit/                   # LazyGit TUI 客户端（delta diff 分页）
+│   ├── matugen/                   # Material 配色生成器（niri/ghostty 动态主题）
 │   ├── neovim/                    # Neovim 编辑器（oil.nvim, fzf-lua, mini.pairs, catppuccin）
 │   ├── niri/                      # niri 合成器原始 KDL 配置
 │   ├── noctalia/                  # Noctalia 桌面 shell（顶栏、锁屏组件、bongocat）
+│   │                              #  – 壁纸切换时驱动 matugen 生成主题
 │   ├── opencode/                  # OpenCode AI 编程助手（DeepSeek）
 │   ├── rime/                      # RIME（fcitx5）双拼输入方案
 │   ├── rust/                      # rust-overlay 提供的 Rust 工具链（rust-analyzer, rust-src）
@@ -125,11 +127,12 @@ Fish 已提供对应缩写（见 `hm-modules/fish/default.nix`）：
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | 智能目录跳转（Rust） |
 | [btop](https://github.com/aristocratos/btop) | 系统资源监视器 |
 | [Helix (evil-helix)](https://github.com/The-Devoy/evil-helix) | 模态编辑器（Helix vim 分支） |
-| [Ghostty](https://ghostty.org/) | GPU 加速终端模拟器（自定义着色器） |
+| [Ghostty](https://ghostty.org/) | GPU 加速终端模拟器（自定义着色器、Matugen 主题） |
 | [lazygit](https://github.com/jesseduffield/lazygit) | Git TUI 客户端（delta 分页） |
+| [matugen](https://github.com/InioX/matugen) | Material 配色生成器（niri/ghostty 动态主题） |
 | [Neovim](https://neovim.io/) | 可扩展代码编辑器（catppuccin-mocha） |
-| [Noctalia](https://github.com/noctalia-dev/noctalia) | COSMIC/niri 桌面 Shell |
-| [niri](https://github.com/YaLTeR/niri) | 滚动平铺 Wayland 合成器 |
+| [Noctalia](https://github.com/noctalia-dev/noctalia) | COSMIC/niri 桌面 Shell（壁纸切换时触发 matugen） |
+| [niri](https://github.com/YaLTeR/niri) | 滚动平铺 Wayland 合成器（Matugen 生成配色） |
 | [Starship](https://starship.rs/) | 跨 Shell 提示符 |
 | [tealdeer](https://github.com/tealdeer-rs/tealdeer) | 命令速查手册（Rust） |
 | [Yazi](https://github.com/sxyazi/yazi) | 终端文件管理器（Rust，rose-pine-moon） |

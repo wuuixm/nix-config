@@ -32,12 +32,14 @@ A NixOS configuration built with Flakes, integrating Home Manager for user envir
 │   ├── evil-helix/                # Helix editor (evil-helix vim fork)
 │   ├── fastfetch/                 # System info with auto-selected logo & custom borders
 │   ├── fish/                      # Fish shell (vi-bindings, auto i<module> abbreviations)
-│   ├── ghostty/                   # Ghostty terminal (custom GLSL shaders)
+│   ├── ghostty/                   # Ghostty terminal (custom GLSL shaders, Matugen theme)
 │   ├── git/                       # Git config with GitHub OAuth (GITHUB_TOKEN)
 │   ├── lazygit/                   # LazyGit TUI (delta diff pager)
+│   ├── matugen/                   # Material color-scheme generator (dynamic niri/ghostty themes)
 │   ├── neovim/                    # Neovim (oil.nvim, fzf-lua, mini.pairs, catppuccin)
 │   ├── niri/                      # niri compositor raw KDL config
 │   ├── noctalia/                  # Noctalia desktop shell (bar, lockscreen widgets, bongocat)
+│   │                              #  – drives matugen theming on wallpaper change
 │   ├── opencode/                  # OpenCode AI coding assistant (DeepSeek)
 │   ├── rime/                      # RIME (fcitx5) Shuangpin input schema
 │   ├── rust/                      # Rust toolchain via rust-overlay (rust-analyzer, rust-src)
@@ -125,11 +127,12 @@ Fish provides short abbreviations for these (`hm-modules/fish/default.nix`):
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | Smarter `cd` (Rust) |
 | [btop](https://github.com/aristocratos/btop) | Resource monitor |
 | [Helix (evil-helix)](https://github.com/The-Devoy/evil-helix) | Modal editor (Helix fork with vim mode) |
-| [Ghostty](https://ghostty.org/) | GPU-accelerated terminal emulator (custom shaders) |
+| [Ghostty](https://ghostty.org/) | GPU-accelerated terminal emulator (custom shaders, Matugen theme) |
 | [lazygit](https://github.com/jesseduffield/lazygit) | TUI git client (delta pager) |
+| [matugen](https://github.com/InioX/matugen) | Material color-scheme generator (dynamic niri/ghostty theming) |
 | [Neovim](https://neovim.io/) | Extensible code editor (catppuccin-mocha) |
-| [Noctalia](https://github.com/noctalia-dev/noctalia) | Desktop shell for COSMIC/niri |
-| [niri](https://github.com/YaLTeR/niri) | Scrollable-tiling Wayland compositor |
+| [Noctalia](https://github.com/noctalia-dev/noctalia) | Desktop shell for COSMIC/niri (triggers matugen on wallpaper change) |
+| [niri](https://github.com/YaLTeR/niri) | Scrollable-tiling Wayland compositor (Matugen-generated colors) |
 | [Starship](https://starship.rs/) | Cross-shell prompt |
 | [tealdeer](https://github.com/tealdeer-rs/tealdeer) | tl;dr command cheatsheets (Rust) |
 | [Yazi](https://github.com/sxyazi/yazi) | Terminal file manager (Rust, rose-pine-moon) |

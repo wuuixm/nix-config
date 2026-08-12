@@ -1,0 +1,11 @@
+[config.wallpaper]
+set = false
+command = "true"
+
+[templates.niri]
+input_path = "~/.config/matugen/templates/niri-colors.kdl"
+output_path = "~/.config/matugen/outputs/niri-colors.kdl"
+
+# [templates.ghostty]
+# input_path = "~/.config/matugen/templates/ghostty"
+# output_path = "~/.config/ghostty/themes/Matugen"

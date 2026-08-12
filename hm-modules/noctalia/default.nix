@@ -221,9 +221,14 @@
         source = "wallpaper";
         wallpaper_scheme = "soft";
         templates = {
-          builtin_ids = [ "niri" ];
+          enable_builtin_templates = false;
           enable_community_templates = false;
         };
+      };
+
+# ---------- hooks ----------
+      hooks = {
+        wallpaper_changed = ''matugen image "$NOCTALIA_WALLPAPER_PATH" -m dark --source-color-index 0'';
       };
 
       # ---------- widgets ----------
