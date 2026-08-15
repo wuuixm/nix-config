@@ -32,3 +32,6 @@ __pycache__/
 
 # Temp files
 *.tmp
+
+# WPS 自持字体（专有，不入库/不上传；构建时经 builtins.path 读取本地目录，需 --impure）
+hm-modules/wps/win-fonts/

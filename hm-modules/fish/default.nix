@@ -54,7 +54,7 @@ in
       gc = "nix-collect-garbage -d && sudo nix-collect-garbage -d";
       oc = "opencode";
       upd = "nix flake update --flake ~/nixos-Gardenia";
-      rd = "sudo nixos-rebuild switch --flake ~/nixos-Gardenia#Gardenia";
+      rd = "sudo nixos-rebuild switch --impure --flake ~/nixos-Gardenia#Gardenia";
       ips = "~/nixos-Gardenia/tools/edit-password";
       ifk = "${editorCmd} ~/nixos-Gardenia/flake.nix";
       ihm = "${editorCmd} ~/nixos-Gardenia/hm-modules/default.nix";

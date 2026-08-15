@@ -45,6 +45,7 @@ A NixOS configuration built with Flakes, integrating Home Manager for user envir
 │   ├── rust/                      # Rust toolchain via rust-overlay (rust-analyzer, rust-src)
 │   ├── starship/                  # Starship prompt (custom palette)
 │   ├── tealdeer/                  # tealdeer (tl;dr for commands)
+│   ├── wps/                       # WPS Office (Windows Chinese fonts, gitignored)
 │   ├── yazi/                      # Yazi terminal file manager (rose-pine-moon)
 │   └── zed/                       # Zed editor (catppuccin, DeepSeek agent)
 │
@@ -64,7 +65,9 @@ A NixOS configuration built with Flakes, integrating Home Manager for user envir
 
 ```bash
 # switch system (hostname: Gardenia)
-sudo nixos-rebuild switch --flake ~/nixos-Gardenia#Gardenia
+# --impure is required: WPS fonts are gitignored and read from disk via builtins.path,
+# which pure flake evaluation forbids (see Tips below).
+sudo nixos-rebuild switch --impure --flake ~/nixos-Gardenia#Gardenia
 
 # update all flake inputs
 nix flake update --flake ~/nixos-Gardenia
@@ -74,7 +77,7 @@ Fish provides short abbreviations for these (`hm-modules/fish/default.nix`):
 
 | Abbr | Command |
 |------|---------|
-| `rd` | `sudo nixos-rebuild switch --flake ~/nixos-Gardenia#Gardenia` |
+| `rd` | `sudo nixos-rebuild switch --impure --flake ~/nixos-Gardenia#Gardenia` |
 | `upd` | `nix flake update --flake ~/nixos-Gardenia` |
 | `gc` | `nix-collect-garbage -d && sudo nix-collect-garbage -d` |
 | `ips` | `~/nixos-Gardenia/tools/edit-password` |
@@ -107,6 +110,7 @@ Fish provides short abbreviations for these (`hm-modules/fish/default.nix`):
 | [fastfetch](https://github.com/fastfetch-cli/fastfetch) | System info display |
 | [google-chrome](https://www.google.com/chrome/) | Web browser |
 | [Helium](https://github.com/schembriaiden/helium-browser-nix-flake) | Minimalist browser (flake input) |
+| [WPS Office](https://www.wps.com/) | Office suite (Chinese fonts from Windows, gitignored) |
 | [mpv](https://mpv.io/) | Media player |
 | [imv](https://sr.ht/~exec64/imv/) | Image viewer (Wayland) |
 | [wl-screenrec](https://github.com/russelltg/wl-screenrec) | Wayland screen recorder (Rust) |
@@ -194,3 +198,12 @@ cd ./tools
 ### NixOS Secrets Unified Management
 
 `tools/edit-password` uses a polyglot technique (the same file runs as both shell and Python), providing interactive CRUD for agenix keys with automatic backup snapshots and one-key rollback.
+
+### Why `--impure` is Needed on Rebuild
+
+WPS relies on genuine Windows Chinese fonts (宋体/SimSun, 黑体/SimHei, …) to render documents exactly like MS Word. These are proprietary fonts, so they are **not committed** to this repository: they live only in `hm-modules/wps/win-fonts/` (gitignored, not pushed to GitHub).
+
+Nix flakes evaluate **purely** by default, which means they only see git-tracked files inside the flake source. Since the font files are gitignored, the build cannot see them. The `wps` module therefore reads the font directory directly from the filesystem via `builtins.path` — an operation that pure evaluation forbids. Passing `--impure` unlocks that disk access, so the fonts are packaged into the user profile during `nixos-rebuild`.
+
+Two safe fallbacks are built in:
+- If `hm-modules/wps/win-fonts/` is missing, or you run rebuild **without** `--impure` (`builtins.pathExists` then returns `false`), the config degrades to an **empty font package** instead of crashing — the system still builds, only the Chinese fonts are absent.

@@ -45,6 +45,7 @@
 │   ├── rust/                      # rust-overlay 提供的 Rust 工具链（rust-analyzer, rust-src）
 │   ├── starship/                  # Starship 终端提示符（自定义配色）
 │   ├── tealdeer/                  # tealdeer（命令速查手册）
+│   ├── wps/                       # WPS Office（Windows 中文字体，gitignored 不入库）
 │   ├── yazi/                      # Yazi 终端文件管理器（rose-pine-moon）
 │   └── zed/                       # Zed 编辑器（catppuccin、DeepSeek 智能体）
 │
@@ -64,7 +65,9 @@
 
 ```bash
 # 切换系统（主机名：Gardenia）
-sudo nixos-rebuild switch --flake ~/nixos-Gardenia#Gardenia
+# --impure 是必须的：WPS 字体已被 gitignore，需经 builtins.path 从磁盘读取，
+# 而纯求值模式下禁止该操作（详见下方小贴士）。
+sudo nixos-rebuild switch --impure --flake ~/nixos-Gardenia#Gardenia
 
 # 更新所有 flake 输入
 nix flake update --flake ~/nixos-Gardenia
@@ -74,7 +77,7 @@ Fish 已提供对应缩写（见 `hm-modules/fish/default.nix`）：
 
 | 缩写 | 命令 |
 |------|------|
-| `rd` | `sudo nixos-rebuild switch --flake ~/nixos-Gardenia#Gardenia` |
+| `rd` | `sudo nixos-rebuild switch --impure --flake ~/nixos-Gardenia#Gardenia` |
 | `upd` | `nix flake update --flake ~/nixos-Gardenia` |
 | `gc` | `nix-collect-garbage -d && sudo nix-collect-garbage -d` |
 | `ips` | `~/nixos-Gardenia/tools/edit-password` |
@@ -107,6 +110,7 @@ Fish 已提供对应缩写（见 `hm-modules/fish/default.nix`）：
 | [fastfetch](https://github.com/fastfetch-cli/fastfetch) | 系统信息显示 |
 | [google-chrome](https://www.google.com/chrome/) | 网页浏览器 |
 | [Helium](https://github.com/schembriaiden/helium-browser-nix-flake) | 极简浏览器（flake 输入） |
+| [WPS Office](https://www.wps.com/) | 办公套件（中文字体来自 Windows，gitignored 不入库） |
 | [mpv](https://mpv.io/) | 媒体播放器 |
 | [imv](https://sr.ht/~exec64/imv/) | 图片查看器（Wayland） |
 | [wl-screenrec](https://github.com/russelltg/wl-screenrec) | Wayland 屏幕录制（Rust） |
@@ -194,3 +198,12 @@ cd ./tools
 ### NixOS Secrets 统一管理
 
 `tools/edit-password` 使用 polyglot 技巧（同一文件可同时作为 shell/python 运行），交互式管理 agenix 密钥，支持增删改查，自动备份快照，误操作可一键回滚。
+
+### 为什么切换系统需要加 `--impure`
+
+WPS 依赖真正的 Windows 中文字体（宋体/黑体/楷体/仿宋等）才能像 MS Word 一样渲染文档。这些是**专有字体**，因此**不提交**到本仓库：只存在于 `hm-modules/wps/win-fonts/`（已被 gitignore，不会 push 到 GitHub）。
+
+Nix flakes 默认采用**纯求值（pure evaluation）**，只能看到 flake 源树里被 git 跟踪的文件。字体被 gitignore 后，构建便"看不见"它们。于是 `wps` 模块改用 `builtins.path` 直接从**磁盘绝对路径**读取字体目录——而纯求值禁止这一操作。加 `--impure` 即为这次求值解锁对本地路径的读取，字体才能被打包进用户环境。
+
+内置了两层安全兜底：
+- 若 `hm-modules/wps/win-fonts/` 不存在，或重建时**忘了加** `--impure`（此时 `builtins.pathExists` 返回 `false`），配置会退化为**空字体包**而不是报错崩溃——系统照常构建，只是缺少中文字体。
