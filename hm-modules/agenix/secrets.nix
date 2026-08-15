@@ -4,4 +4,5 @@ in
 {
   "keys/aria2-rpc-secret.age".publicKeys = [ userKey ];
   "keys/github-token.age".publicKeys = [ userKey ];
+  "keys/deepseek-gardenia.age".publicKeys = [ userKey ];
 }
