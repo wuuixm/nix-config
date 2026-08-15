@@ -111,6 +111,8 @@ in
   home.sessionPath = [
     "$HOME/.cargo/bin"
     "$HOME/.local/bin"
+    "$HOME/.local/share/pnpm"
+    "$HOME/.local/share/pnpm/bin"
   ];
 
   # Home Manager 自身
