@@ -39,6 +39,8 @@ in
 
   # 用户软件包
   home.packages = with pkgs; [
+    gnumake
+    python3
     clang-tools
     splayer
     grim
@@ -72,7 +74,6 @@ in
     wl-screenrec
     slurp
     uv
-    fnm
     mdcat
     docker-compose
     gcc
@@ -111,8 +112,6 @@ in
   home.sessionPath = [
     "$HOME/.cargo/bin"
     "$HOME/.local/bin"
-    "$HOME/.local/share/pnpm"
-    "$HOME/.local/share/pnpm/bin"
   ];
 
   # Home Manager 自身

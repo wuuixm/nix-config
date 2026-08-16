@@ -30,13 +30,16 @@ in
       if test -f ${mySecrets.getPath "github-token"}
         set -gx GITHUB_TOKEN (cat ${mySecrets.getPath "github-token"} | tr -d '\n')
       end
+
+      if test -f ${mySecrets.getPath "deepseek-gardenia"}
+        set -gx DEEPSEEK_API_KEY (cat ${mySecrets.getPath "deepseek-gardenia"} | tr -d '\n')
+      end
     '';
 
     shellAliases = { };
     interactiveShellInit = ''
       set -g fish_greeting ""
       set -g fish_key_bindings fish_vi_key_bindings
-      fnm env --use-on-cd --shell fish | source
     '';
     functions = {
       fish_user_key_bindings = ''
@@ -53,6 +56,7 @@ in
       mat = "mdcat";
       gc = "nix-collect-garbage -d && sudo nix-collect-garbage -d";
       oc = "opencode";
+      dt = "node --expose-internals \"$(command -v dsh)\" --profile dsh-tui";
       upd = "nix flake update --flake ~/nixos-Gardenia";
       rd = "sudo nixos-rebuild switch --impure --flake ~/nixos-Gardenia#Gardenia";
       ips = "~/nixos-Gardenia/tools/edit-password";
