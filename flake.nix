@@ -67,11 +67,11 @@
 
         home-manager.nixosModules.home-manager
 
-        ({ config, inputs, ... }: {
+        ({ config, inputs, pkgs-unstable, ... }: {
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-            extraSpecialArgs = { inherit inputs; } // config._module.args;
+            extraSpecialArgs = { inherit inputs pkgs-unstable; } // config._module.args;
             sharedModules = [ ];
             users.wuuixm.imports = [ ./hm-modules ];
           };
