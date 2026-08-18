@@ -30,6 +30,9 @@ __pycache__/
 # Environment files
 .env
 
+# codegraph index (regenerated from source)
+.codegraph/
+
 # Temp files
 *.tmp
 
