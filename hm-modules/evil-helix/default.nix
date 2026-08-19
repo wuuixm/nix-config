@@ -41,4 +41,11 @@
 
     };
   };
+
+  home.packages = [
+    (pkgs.runCommand "helix-hx-alias" { } ''
+      mkdir -p $out/bin
+      ln -s ${pkgs.evil-helix}/bin/hx $out/bin/helix
+    '')
+  ];
 }
