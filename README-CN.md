@@ -40,7 +40,7 @@
 │   ├── niri/                      # niri 合成器原始 KDL 配置
 │   ├── noctalia/                  # Noctalia 桌面 shell（顶栏、锁屏组件、bongocat）
 │   │                              #  – 壁纸切换时驱动 matugen 生成主题
-│   ├── opencode/                  # OpenCode AI 编程助手（DeepSeek）
+│   ├── pi/                        # Pi 编程代理
 │   ├── rime/                      # RIME（fcitx5）双拼输入方案
 │   ├── rust/                      # rust-overlay 提供的 Rust 工具链（rust-analyzer, rust-src）
 │   ├── starship/                  # Starship 终端提示符（自定义配色）
@@ -136,12 +136,12 @@ Fish 已提供对应缩写（见 `hm-modules/fish/default.nix`）：
 | [matugen](https://github.com/InioX/matugen) | Material 配色生成器（niri/ghostty 动态主题） |
 | [Neovim](https://neovim.io/) | 可扩展代码编辑器（catppuccin-mocha） |
 | [Noctalia](https://github.com/noctalia-dev/noctalia) | COSMIC/niri 桌面 Shell（壁纸切换时触发 matugen） |
+| [Pi](https://pi.dev/) | 编程代理 CLI/TUI |
 | [niri](https://github.com/YaLTeR/niri) | 滚动平铺 Wayland 合成器（Matugen 生成配色） |
 | [Starship](https://starship.rs/) | 跨 Shell 提示符 |
 | [tealdeer](https://github.com/tealdeer-rs/tealdeer) | 命令速查手册（Rust） |
 | [Yazi](https://github.com/sxyazi/yazi) | 终端文件管理器（Rust，rose-pine-moon） |
 | [Zed](https://zed.dev/) | 高性能代码编辑器（DeepSeek 智能体） |
-| [OpenCode](https://opencode.ai) | AI 编程助手 CLI/TUI（DeepSeek） |
 | Rust 工具链 | rust-overlay stable + rust-analyzer + rust-src |
 | [satty](https://github.com/gabm/satty) | Wayland 截图工具（Noctalia 截图管道） |
 | [Aria2](https://aria2.github.io/) | 下载管理器（systemd 用户服务，RPC :6800） |

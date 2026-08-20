@@ -31,7 +31,7 @@
 
         normal = {
           "L" = ":sh ghostty -e lazygit > /dev/null 2>&1 &";
-          "H" = ":sh cd \"$(dirname \"%{buffer_name}\")\" && ghostty -e opencode > /dev/null 2>&1 &";
+          "H" = ":sh cd \"$(dirname \"%{buffer_name}\")\" && ghostty -e pi > /dev/null 2>&1 &";
         };
 
         insert = {

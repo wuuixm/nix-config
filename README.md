@@ -40,7 +40,7 @@ A NixOS configuration built with Flakes, integrating Home Manager for user envir
 │   ├── niri/                      # niri compositor raw KDL config
 │   ├── noctalia/                  # Noctalia desktop shell (bar, lockscreen widgets, bongocat)
 │   │                              #  – drives matugen theming on wallpaper change
-│   ├── opencode/                  # OpenCode AI coding assistant (DeepSeek)
+│   ├── pi/                        # Pi coding agent
 │   ├── rime/                      # RIME (fcitx5) Shuangpin input schema
 │   ├── rust/                      # Rust toolchain via rust-overlay (rust-analyzer, rust-src)
 │   ├── starship/                  # Starship prompt (custom palette)
@@ -136,12 +136,12 @@ Fish provides short abbreviations for these (`hm-modules/fish/default.nix`):
 | [matugen](https://github.com/InioX/matugen) | Material color-scheme generator (dynamic niri/ghostty theming) |
 | [Neovim](https://neovim.io/) | Extensible code editor (catppuccin-mocha) |
 | [Noctalia](https://github.com/noctalia-dev/noctalia) | Desktop shell for COSMIC/niri (triggers matugen on wallpaper change) |
+| [Pi](https://pi.dev/) | Coding agent CLI/TUI |
 | [niri](https://github.com/YaLTeR/niri) | Scrollable-tiling Wayland compositor (Matugen-generated colors) |
 | [Starship](https://starship.rs/) | Cross-shell prompt |
 | [tealdeer](https://github.com/tealdeer-rs/tealdeer) | tl;dr command cheatsheets (Rust) |
 | [Yazi](https://github.com/sxyazi/yazi) | Terminal file manager (Rust, rose-pine-moon) |
 | [Zed](https://zed.dev/) | High-performance code editor (DeepSeek agent) |
-| [OpenCode](https://opencode.ai) | AI coding assistant CLI/TUI (DeepSeek) |
 | Rust toolchain | rust-overlay stable + rust-analyzer + rust-src |
 | [satty](https://github.com/gabm/satty) | Wayland screenshot tool (Noctalia screenshot pipe) |
 | [Aria2](https://aria2.github.io/) | Download manager with systemd user service (RPC :6800) |

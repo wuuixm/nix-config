@@ -49,16 +49,14 @@ in
     };
 
     shellAbbrs = moduleAbbrs // {
-      zed = "zeditor";
-      nrs = "niri-session";
       bp = "btop";
       ff = "fastfetch";
-      mat = "mdcat";
       gc = "nix-collect-garbage -d && sudo nix-collect-garbage -d";
-      oc = "opencode";
-      dt = "node --expose-internals \"$(command -v dsh)\" --profile dsh-tui";
-      upd = "nix flake update --flake ~/nixos-Gardenia";
       rd = "sudo nixos-rebuild switch --impure --flake ~/nixos-Gardenia#Gardenia";
+      zed = "zeditor";
+      nrs = "niri-session";
+      mat = "mdcat";
+      upd = "nix flake update --flake ~/nixos-Gardenia";
       ips = "~/nixos-Gardenia/tools/edit-password";
       ifk = "${editorCmd} ~/nixos-Gardenia/flake.nix";
       ihm = "${editorCmd} ~/nixos-Gardenia/hm-modules/default.nix";
