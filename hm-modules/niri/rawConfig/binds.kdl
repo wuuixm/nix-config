@@ -6,8 +6,10 @@ binds {
     // 打开终端
     Mod+T hotkey-overlay-title="Open a Terminal" { spawn "ghostty"; }
 
-    // 查看系统信息
-    Mod+S { spawn-sh "noctalia msg panel-toggle control-center system"; }
+    // 打开noctalia bat & 查看系统信息
+    Mod+S {
+        spawn-sh "noctalia msg bar-toggle;noctalia msg panel-toggle control-center system";
+    }
 
     // 打开启动器
     Mod+D { spawn-sh "noctalia msg panel-toggle launcher"; }
@@ -21,10 +23,8 @@ binds {
     // 打开剪贴板
     Mod+V { spawn-sh "noctalia msg panel-toggle clipboard"; }
 
-    // 进入概览 & 切换noctalia状态栏
-    Mod+O {
-        spawn-sh "noctalia msg bar-toggle; niri msg action toggle-overview"
-    }
+    // 进入概览
+    Mod+O { spawn-sh "niri msg action toggle-overview"; }
 
     // 关闭窗口
     Mod+Q repeat=false { close-window; }

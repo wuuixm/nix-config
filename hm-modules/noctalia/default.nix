@@ -8,58 +8,94 @@
   programs.noctalia = {
     enable = true;
     settings = {
-      # ---------- backdrop ----------
-      backdrop = {
-        enabled = true;
+      # Absolute wallpaper and avatar paths are intentionally omitted.
+
+      backdrop.enabled = true;
+
+      bar = {
+        order = [ "default" "bar" ];
+
+        bar = {
+          background_opacity = 0.7;
+          center = [ "control-center" "weather" "clock" ];
+          enabled = true;
+          end = [
+            "media"
+            "tray"
+            "notifications"
+            "clipboard"
+            "network"
+            "bluetooth"
+            "volume"
+            "brightness"
+            "battery"
+            "session"
+          ];
+          font_family = "Noto Serif CJK TC";
+          layer = "overlay";
+          radius_bottom_left = 18;
+          radius_bottom_right = 18;
+          reserve_space = false;
+          start = [ "launcher" "workspaces" "wallpaper" "privacy" ];
+          thickness = 45;
+          widget_spacing = 8;
+        };
+
+        default = {
+          background_opacity = 0.0;
+          capsule = true;
+          capsule_fill = "tertiary";
+          capsule_foreground = "on_tertiary";
+          capsule_opacity = 0.65;
+          center = [ "group:g1" "cat" ];
+          concave_edge_corners = false;
+          enabled = false;
+          end = [ "tray" "network" "bluetooth" "volume" "brightness" "battery" "group:g2" ];
+          margin_ends = 0;
+          padding = 8;
+          start = [ "workspaces" "audio_visualizer" "privacy" "media" "active_window" ];
+
+          capsule_group = [
+            {
+              accordion = false;
+              accordion_direction = "end";
+              enabled = true;
+              fill = "tertiary";
+              foreground = "on_tertiary";
+              id = "g1";
+              members = [ "weather" "clock" ];
+              opacity = 0.65;
+              padding = 6.0;
+            }
+            {
+              accordion = false;
+              accordion_direction = "end";
+              enabled = true;
+              fill = "tertiary";
+              foreground = "on_tertiary";
+              id = "g2";
+              members = [ "notifications" "control-center" ];
+              opacity = 0.65;
+              padding = 6.0;
+            }
+          ];
+        };
       };
 
-      # ---------- bar ----------
-      bar.default = {
-        background_opacity = 0.0;
-        capsule = true;
-        capsule_fill = "tertiary";
-        capsule_foreground = "on_tertiary";
-        capsule_opacity = 0.65;
-        center = [ "group:g1" "cat" ];
-        concave_edge_corners = false;
-        end = [ "tray" "network" "bluetooth" "volume" "brightness" "battery" "group:g2" ];
-        margin_ends = 0;
-        padding = 8;
-        start = [ "workspaces" "audio_visualizer" "privacy" "media" "active_window" "screen-toolkit" ];
-
-        capsule_group = [
-          {
-            enabled = true;
-            fill = "tertiary";
-            foreground = "on_tertiary";
-            id = "g1";
-            members = [ "weather" "clock" ];
-            opacity = 0.65;
-            padding = 6.0;
-          }
-          {
-            enabled = true;
-            fill = "tertiary";
-            foreground = "on_tertiary";
-            id = "g2";
-            members = [ "notifications" "control-center" ];
-            opacity = 0.65;
-            padding = 6.0;
-          }
-        ];
-      };
-
-      # ---------- desktop widgets ----------
       desktop_widgets = {
         enabled = false;
+        schema_version = 2;
+        widget_order = [ ];
+        grid = {
+          cell_size = 16;
+          major_interval = 4;
+          visible = true;
+        };
       };
 
-      # ---------- location ----------
-      location = {
-        address = "chuzhou";
-      };
+      hooks.wallpaper_changed = "matugen image \"$NOCTALIA_WALLPAPER_PATH\" -m dark --source-color-index 0";
+      location.address = "chuzhou";
 
-      # ---------- lockscreen widgets ----------
       lockscreen_widgets = {
         enabled = true;
         schema_version = 2;
@@ -119,7 +155,7 @@
             };
           };
 
-          "lockscreen-widget-0000000000000001" = {
+          lockscreen-widget-0000000000000001 = {
             box_height = 0.0;
             box_width = 0.0;
             cx = 853.5;
@@ -136,7 +172,7 @@
             };
           };
 
-          "lockscreen-widget-0000000000000003" = {
+          lockscreen-widget-0000000000000003 = {
             box_height = 80.0;
             box_width = 624.0;
             cx = 853.5;
@@ -163,45 +199,37 @@
         };
       };
 
-      # ---------- notification ----------
-      notification = {
-        layer = "overlay";
-      };
+      notification.layer = "overlay";
+      osd.position = "top_right";
 
-      # ---------- OSD ----------
-      osd = {
-        position = "top_right";
-      };
-
-      # ---------- plugin settings ----------
-      plugins = {
-        enabled = [ "noctalia/bongocat" "alexander/screen-toolkit" ];
-      };
-
-      # ---------- plugin_settings ----------
       plugin_settings = {
         "alexander/screen-toolkit" = {
           selected-ocr-lang = "eng+chi_sim";
         };
+        "avivbintangaringga/nix-monitor" = {
+          branch = "nixos-26.05";
+          panel_placement = "floating";
+        };
       };
 
-      # ---------- shell ----------
+      plugins.enabled = [ "noctalia/bongocat" "alexander/screen-toolkit" ];
+
       shell = {
         app_icon_color = "on_hover";
         clipboard_auto_paste = "off";
         clipboard_history_max_entries = 300;
         font_family = "Noto Serif CJK SC";
         lang = "zh-Hans";
-        panel_anchor_bar = "default";
+        panel_anchor_bar = "bar";
         password_style = "random";
         polkit_agent = true;
 
         panel = {
-          control_center_placement = "floating";
-          open_near_click_control_center = true;
+          control_center_placement = "attached";
+          open_near_click_control_center = false;
           session_placement = "floating";
-          transparency_mode = "soft";
-          wallpaper_placement = "floating";
+          transparency_mode = "glass";
+          wallpaper_placement = "attached";
         };
 
         screenshot = {
@@ -213,7 +241,6 @@
         };
       };
 
-      # ---------- theme ----------
       theme = {
         builtin = "Dracula";
         community_palette = "Oxocarbon";
@@ -221,17 +248,14 @@
         source = "wallpaper";
         wallpaper_scheme = "soft";
         templates = {
+          builtin_ids = [ ];
           enable_builtin_templates = false;
           enable_community_templates = false;
         };
       };
 
-# ---------- hooks ----------
-      hooks = {
-        wallpaper_changed = ''matugen image "$NOCTALIA_WALLPAPER_PATH" -m dark --source-color-index 0'';
-      };
+      wallpaper.transition = [ "disc" ];
 
-      # ---------- widgets ----------
       widget = {
         audio_visualizer = {
           bands = 24;
@@ -245,28 +269,22 @@
           rave_mode = true;
           type = "noctalia/bongocat:cat";
         };
-        clock = {
-          format = "{:%m-%d %H:%M}";
-        };
-        "control-center" = {
-          glyph = "snowflake";
-        };
+        clock.format = "{:%m-%d %H:%M}";
+        "control-center".glyph = "snowflake";
+        launcher.glyph = "ikosaedr";
         media = {
+          album_art_only = true;
           hide_when_no_media = true;
           max_length = 150;
           title_scroll = "on_hover";
         };
-        privacy = {
-          hide_inactive = true;
-        };
+        privacy.hide_inactive = true;
         tray = {
           detached_panel = true;
           drawer = true;
           pinned = [ "tray-icon tray app main" "tray-icon tray app clash-verge-rev-tray" ];
         };
-        weather = {
-          max_length = 220;
-        };
+        weather.max_length = 220;
       };
     };
   };

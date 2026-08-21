@@ -8,3 +8,4 @@ spawn-sh-at-startup "systemctl --user import-environment WAYLAND_DISPLAY XDG_CUR
 spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri"
 
 spawn-at-startup "noctalia"
+spawn-sh-at-startup "until noctalia msg bar-hide >/dev/null 2>&1; do sleep 0.2; done"
