@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 
 {
   security.rtkit.enable = true;
@@ -29,7 +29,7 @@
     powerManagement.finegrained = true;
     open = true;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = pkgs-unstable.linuxPackages_latest.nvidiaPackages.stable;
     prime = {
       offload = {
         enable = true;
