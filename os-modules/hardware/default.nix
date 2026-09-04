@@ -29,7 +29,7 @@
     powerManagement.finegrained = true;
     open = true;
     nvidiaSettings = true;
-    package = pkgs-unstable.linuxPackages_latest.nvidiaPackages.stable;
+    package = (pkgs-unstable.linuxPackagesFor pkgs.linuxPackages_latest.kernel).nvidiaPackages.stable;
     prime = {
       offload = {
         enable = true;
