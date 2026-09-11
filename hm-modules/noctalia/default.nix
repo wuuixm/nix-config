@@ -114,11 +114,13 @@
 
         widget = {
           "lockscreen-login-box@eDP-1" = {
-            box_height = 70.0;
-            box_width = 400.0;
+            box_height = 196.0;
+            box_width = 720.0;
             cx = 854.0;
             cy = 841.0;
             output = "eDP-1";
+            placement_height = 960.0;
+            placement_width = 1707.0;
             rotation = 0.0;
             type = "login_box";
             settings = {
@@ -128,18 +130,25 @@
               center_password_text = false;
               input_opacity = 1.0;
               input_radius = 6.0;
+              layout = "regular";
               show_caps_lock = true;
               show_keyboard_layout = true;
               show_login_button = true;
+              show_media = true;
+              show_session_buttons = true;
+              show_unlock_hint = true;
+              show_weather = true;
             };
           };
 
           "lockscreen-login-box@eDP-2" = {
-            box_height = 64.0;
-            box_width = 384.0;
+            box_height = 196.0;
+            box_width = 720.0;
             cx = 853.5;
             cy = 646.0;
             output = "eDP-2";
+            placement_height = 960.0;
+            placement_width = 1707.0;
             rotation = 0.0;
             type = "login_box";
             settings = {
@@ -149,9 +158,14 @@
               center_password_text = false;
               input_opacity = 1.0;
               input_radius = 6.0;
+              layout = "regular";
               show_caps_lock = true;
               show_keyboard_layout = true;
               show_login_button = false;
+              show_media = true;
+              show_session_buttons = true;
+              show_unlock_hint = true;
+              show_weather = true;
             };
           };
 
@@ -161,6 +175,8 @@
             cx = 853.5;
             cy = 480.0;
             output = "eDP-2";
+            placement_height = 960.0;
+            placement_width = 1707.0;
             rotation = 0.0;
             type = "fancy_audio_visualizer";
             settings = {
@@ -178,6 +194,8 @@
             cx = 853.5;
             cy = 215.0;
             output = "eDP-2";
+            placement_height = 960.0;
+            placement_width = 1707.0;
             rotation = 0.0;
             type = "clock";
             settings = {
@@ -226,8 +244,8 @@
           annotate = true;
           confirm_region = false;
           copy_to_clipboard = false;
-          pipe_command = "satty -f -";
-          pipe_to_command = true;
+          pipe_command = "";
+          pipe_to_command = false;
           save_to_file = false;
         };
       };
@@ -245,7 +263,13 @@
         };
       };
 
-      wallpaper.transition = [ "disc" ];
+      wallpaper = {
+        transition = [ "disc" ];
+        automation = {
+          enabled = true;
+          recursive = false;
+        };
+      };
 
       widget = {
         audio_visualizer = {
