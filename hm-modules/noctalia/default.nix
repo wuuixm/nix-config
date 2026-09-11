@@ -202,17 +202,7 @@
       notification.layer = "overlay";
       osd.position = "top_right";
 
-      plugin_settings = {
-        "alexander/screen-toolkit" = {
-          selected-ocr-lang = "eng+chi_sim";
-        };
-        "avivbintangaringga/nix-monitor" = {
-          branch = "nixos-26.05";
-          panel_placement = "floating";
-        };
-      };
-
-      plugins.enabled = [ "noctalia/bongocat" "alexander/screen-toolkit" ];
+      plugins.enabled = [ "noctalia/bongocat" ];
 
       shell = {
         app_icon_color = "on_hover";
@@ -233,7 +223,8 @@
         };
 
         screenshot = {
-          confirm_region = true;
+          annotate = true;
+          confirm_region = false;
           copy_to_clipboard = false;
           pipe_command = "satty -f -";
           pipe_to_command = true;

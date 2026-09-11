@@ -143,7 +143,6 @@ Fish provides short abbreviations for these (`hm-modules/fish/default.nix`):
 | [Yazi](https://github.com/sxyazi/yazi) | Terminal file manager (Rust, rose-pine-moon) |
 | [Zed](https://zed.dev/) | High-performance code editor (DeepSeek agent) |
 | Rust toolchain | rust-overlay stable + rust-analyzer + rust-src |
-| [satty](https://github.com/gabm/satty) | Wayland screenshot tool (Noctalia screenshot pipe) |
 | [Aria2](https://aria2.github.io/) | Download manager with systemd user service (RPC :6800) |
 | [udiskie](https://github.com/coldfix/udiskie) | Auto-mounter for removable media |
 | ssh-agent | SSH key agent |

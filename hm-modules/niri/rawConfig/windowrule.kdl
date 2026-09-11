@@ -10,7 +10,6 @@ window-rule {
     // match title="flameshot-pin"
     match title="哔哩哔哩 (゜-゜)つロ 干杯~-bilibili"
     match app-id="blueman-manager"
-    match title="satty"
 
     open-floating true
 }

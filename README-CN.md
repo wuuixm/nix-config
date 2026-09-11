@@ -143,7 +143,6 @@ Fish 已提供对应缩写（见 `hm-modules/fish/default.nix`）：
 | [Yazi](https://github.com/sxyazi/yazi) | 终端文件管理器（Rust，rose-pine-moon） |
 | [Zed](https://zed.dev/) | 高性能代码编辑器（DeepSeek 智能体） |
 | Rust 工具链 | rust-overlay stable + rust-analyzer + rust-src |
-| [satty](https://github.com/gabm/satty) | Wayland 截图工具（Noctalia 截图管道） |
 | [Aria2](https://aria2.github.io/) | 下载管理器（systemd 用户服务，RPC :6800） |
 | [udiskie](https://github.com/coldfix/udiskie) | 可移动介质自动挂载 |
 | ssh-agent | SSH 密钥代理 |
