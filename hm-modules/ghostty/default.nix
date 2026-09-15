@@ -23,6 +23,9 @@
       # custom-shader = "${./shaders/starfield.glsl}";
 
       keybind = [
+        # ctrl+shift+enter is used by pi to submit the prompt, so release it
+        # from Ghostty's default `toggle_split_zoom` binding.
+        "ctrl+shift+enter=unbind"
         "ctrl+j=scroll_page_lines:1"
         "ctrl+k=scroll_page_lines:-1"
         "ctrl+shift+j=scroll_page_down"
