@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, mySecrets, ... }:
+{ config, pkgs, pkgs-unstable, inputs, mySecrets, ... }:
 
 let
   entries = builtins.readDir ./.;
@@ -43,7 +43,6 @@ in
     gnumake
     python3
     clang-tools
-    splayer
     ffmpeg
     hmcl
     evtest
@@ -61,6 +60,7 @@ in
     manix
     fastfetch
     google-chrome
+    pkgs-unstable.splayer-next
     inputs.helium.packages.${pkgs.system}.default
     mpv
     imv
