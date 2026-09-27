@@ -16,6 +16,13 @@
   services.udisks2.enable = true;
   services.openssh.enable = true;
 
+  services.sunshine = {
+    enable = true;
+    autoStart = false;
+    openFirewall = true;
+    capSysAdmin = true;  
+  };
+
   networking.networkmanager.enable = true;
   networking.firewall.enable = false;
 
