@@ -40,6 +40,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nyx = {
+      url = "git+https://github.com/BX-Team/Nyx.git?shallow=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     res-moqi-rime = {
       url = "git+https://github.com/gaboolic/rime-shuangpin-fuzhuma.git?shallow=1";
       flake = false;

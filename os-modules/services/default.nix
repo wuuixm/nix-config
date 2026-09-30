@@ -1,6 +1,8 @@
-{ pkgs, pkgs-unstable, ... }:
+{ pkgs, pkgs-unstable, inputs, ... }:
 
 {
+  imports = [ inputs.nyx.nixosModules.default ];
+
   environment.systemPackages = with pkgs; [
     git
     wget
@@ -10,6 +12,7 @@
     asusctl
     os-prober
     xwayland-satellite
+    mihomo
   ];
 
   services.flatpak.enable = true;
@@ -26,12 +29,12 @@
   networking.networkmanager.enable = true;
   networking.firewall.enable = false;
 
-  programs.clash-verge = {
+  programs.nyx = {
     enable = true;
-    package = pkgs-unstable.clash-verge-rev;
-    autoStart = true;
-    serviceMode = true;
-    tunMode = true;
+    service = {
+      enable = true;
+      user = "wuuixm";
+    };
   };
 
   programs.steam.enable = true;

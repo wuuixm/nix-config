@@ -297,7 +297,7 @@
         tray = {
           detached_panel = true;
           drawer = true;
-          pinned = [ "tray-icon tray app main" "tray-icon tray app clash-verge-rev-tray" ];
+          pinned = [ "nyx" ];
         };
         weather.max_length = 220;
       };
