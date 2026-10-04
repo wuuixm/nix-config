@@ -71,6 +71,7 @@ in
     docker-compose
     gcc
     binutils
+    unrar
   ];
 
   # 简单模块
