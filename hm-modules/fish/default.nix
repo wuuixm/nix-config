@@ -54,6 +54,7 @@ in
       gc = "nix-collect-garbage -d && sudo nix-collect-garbage -d";
       rd = "sudo nixos-rebuild switch --impure --flake ~/nixos-Gardenia#Gardenia";
       zed = "zeditor";
+      net = "~/Assets/scripts/auto-login.sh";
       nrs = "niri-session";
       mat = "mdcat";
       upd = "nix flake update --flake ~/nixos-Gardenia";
