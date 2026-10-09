@@ -20,13 +20,13 @@
 │   ├── hardware/                  # PipeWire、NVIDIA Prime（supergfxd）、asusd、蓝牙
 │   ├── locale/                    # 主机名、时区、语言、fcitx5（RIME）输入法、字体
 │   ├── nix/                       # Flakes 配置、nix-ld、每周垃圾回收、Nix 优化、allowUnfree
-│   ├── services/                  # SSH、NetworkManager、Flatpak、Steam、Docker、Clash Verge
+│   ├── services/                  # SSH、NetworkManager、Flatpak、Steam、Docker、Nyx
 │   ├── users/                     # 用户 wuuixm 定义（fish shell）
 │   └── virtualisation/            # libvirtd + virt-manager
 │
 ├── hm-modules/                    # Home Manager 模块（readDir 自动导入子目录）
 │   ├── default.nix                # 入口：用户名、XDG 目录、环境变量、基础软件包与服务
-│   ├── agenix/                    # 密钥管理（aria2-rpc-secret, github-token）
+│   ├── agenix/                    # 密钥管理（aria2-rpc-secret, github-token, deepseek-gardenia）
 │   ├── aria2/                     # Aria2 下载器（systemd 用户服务，RPC :6800）
 │   ├── btop/                      # btop 系统监视器
 │   ├── evil-helix/                # Helix 编辑器（evil-helix vim 分支）
@@ -36,10 +36,10 @@
 │   ├── git/                       # Git 配置（GitHub OAuth，GITHUB_TOKEN）
 │   ├── lazygit/                   # LazyGit TUI 客户端（delta diff 分页）
 │   ├── matugen/                   # Material 配色生成器（niri/ghostty 动态主题）
-│   ├── neovim/                    # Neovim 编辑器（oil.nvim, fzf-lua, mini.pairs, catppuccin）
 │   ├── niri/                      # niri 合成器原始 KDL 配置
 │   ├── noctalia/                  # Noctalia 桌面 shell（顶栏、锁屏组件、bongocat）
 │   │                              #  – 壁纸切换时驱动 matugen 生成主题
+│   ├── node/                      # Node.js + pnpm（npmrc、pnpm 全局目录与 PATH）
 │   ├── pi/                        # Pi 编程代理
 │   ├── rime/                      # RIME（fcitx5）双拼输入方案
 │   ├── rust/                      # rust-overlay 提供的 Rust 工具链（rust-analyzer, rust-src）
@@ -91,7 +91,10 @@ Fish 已提供对应缩写（见 `hm-modules/fish/default.nix`）：
 
 | 软件包 | 说明 |
 |--------|------|
+| [GNU Make](https://www.gnu.org/software/make/) | 构建工具 |
+| [Python 3](https://www.python.org/) | Python 解释器 |
 | [clang-tools](https://clang.llvm.org/) | C/C++ LSP（clangd）及工具 |
+| [FFmpeg](https://ffmpeg.org/) | 音视频转码工具 |
 | [splayer](https://github.com/chiflix/splayerx) | 在线流媒体播放器 |
 | [hmcl](https://hmcl.huangyuhui.net/) | Hello Minecraft! 启动器 |
 | [evtest](https://cgit.freedesktop.org/evtest/) | 输入事件调试工具 |
@@ -116,11 +119,12 @@ Fish 已提供对应缩写（见 `hm-modules/fish/default.nix`）：
 | [wl-screenrec](https://github.com/russelltg/wl-screenrec) | Wayland 屏幕录制（Rust） |
 | [slurp](https://github.com/emersion/slurp) | Wayland 区域选择工具（Rust） |
 | [uv](https://github.com/astral-sh/uv) | Python 包管理器（Rust） |
-| [fnm](https://github.com/Schniz/fnm) | Node.js 版本管理器（Rust） |
+| [nodejs](https://nodejs.org/) + [pnpm](https://pnpm.io/) | Node.js 运行时与包管理器 |
 | [mdcat](https://github.com/swsnr/mdcat) | Markdown 渲染器（Rust） |
 | [docker-compose](https://github.com/docker/compose) | Docker 编排工具 |
 | [gcc](https://gcc.gnu.org/) | C/C++ 编译器 |
 | [binutils](https://www.gnu.org/software/binutils/) | 二进制工具集 |
+| [unrar](https://www.rarlab.com/) | RAR 解压工具 |
 
 ### Home Manager – 已配置的程序与服务
 
@@ -134,7 +138,6 @@ Fish 已提供对应缩写（见 `hm-modules/fish/default.nix`）：
 | [Ghostty](https://ghostty.org/) | GPU 加速终端模拟器（自定义着色器、Matugen 主题） |
 | [lazygit](https://github.com/jesseduffield/lazygit) | Git TUI 客户端（delta 分页） |
 | [matugen](https://github.com/InioX/matugen) | Material 配色生成器（niri/ghostty 动态主题） |
-| [Neovim](https://neovim.io/) | 可扩展代码编辑器（catppuccin-mocha） |
 | [Noctalia](https://github.com/noctalia-dev/noctalia) | COSMIC/niri 桌面 Shell（壁纸切换时触发 matugen） |
 | [Pi](https://pi.dev/) | 编程代理 CLI/TUI |
 | [niri](https://github.com/YaLTeR/niri) | 滚动平铺 Wayland 合成器（Matugen 生成配色） |
@@ -142,7 +145,7 @@ Fish 已提供对应缩写（见 `hm-modules/fish/default.nix`）：
 | [tealdeer](https://github.com/tealdeer-rs/tealdeer) | 命令速查手册（Rust） |
 | [Yazi](https://github.com/sxyazi/yazi) | 终端文件管理器（Rust，rose-pine-moon） |
 | [Zed](https://zed.dev/) | 高性能代码编辑器（DeepSeek 智能体） |
-| Rust 工具链 | rust-overlay stable + rust-analyzer + rust-src |
+| Rust 工具链 | rust-overlay stable（minimal profile）+ rust-analyzer + rust-src |
 | [Aria2](https://aria2.github.io/) | 下载管理器（systemd 用户服务，RPC :6800） |
 | [udiskie](https://github.com/coldfix/udiskie) | 可移动介质自动挂载 |
 | ssh-agent | SSH 密钥代理 |
@@ -153,7 +156,7 @@ Fish 已提供对应缩写（见 `hm-modules/fish/default.nix`）：
 | 软件包 / 服务 | 说明 |
 |---------------|------|
 | [asusctl](https://gitlab.com/asus-linux/asusctl) | ASUS ROG 笔记本控制 |
-| [Clash Verge](https://github.com/clash-verge-rev/clash-verge-rev) | 代理客户端（TUN + 服务模式，开机自启） |
+| [Nyx](https://github.com/BX-Team/Nyx) | 代理客户端（Clash 系 GUI + systemd 服务模式） |
 | [Steam](https://store.steampowered.com/) | 游戏平台 |
 | [Docker](https://www.docker.com/) | 容器运行时（Rootless） |
 | [libvirtd](https://libvirt.org/) + [virt-manager](https://virt-manager.org/) | 虚拟机管理（QEMU/KVM + swtpm） |

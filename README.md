@@ -20,13 +20,13 @@ A NixOS configuration built with Flakes, integrating Home Manager for user envir
 │   ├── hardware/                  # PipeWire, NVIDIA Prime (supergfxd), asusd, bluetooth
 │   ├── locale/                    # Hostname, timezone, locales, fcitx5 (RIME), fonts
 │   ├── nix/                       # Flakes, nix-ld, weekly GC, optimisation, allowUnfree
-│   ├── services/                  # SSH, NetworkManager, Flatpak, Steam, Docker, Clash Verge
+│   ├── services/                  # SSH, NetworkManager, Flatpak, Steam, Docker, Nyx
 │   ├── users/                     # User "wuuixm" definition (fish shell)
 │   └── virtualisation/            # libvirtd + virt-manager
 │
 ├── hm-modules/                    # Home Manager modules (auto-imported via readDir)
 │   ├── default.nix                # Entry: username, XDG dirs, env vars, base packages & services
-│   ├── agenix/                    # Secret management (aria2-rpc-secret, github-token)
+│   ├── agenix/                    # Secret management (aria2-rpc-secret, github-token, deepseek-gardenia)
 │   ├── aria2/                     # Aria2 downloader with systemd user service (RPC :6800)
 │   ├── btop/                      # btop system monitor
 │   ├── evil-helix/                # Helix editor (evil-helix vim fork)
@@ -36,10 +36,10 @@ A NixOS configuration built with Flakes, integrating Home Manager for user envir
 │   ├── git/                       # Git config with GitHub OAuth (GITHUB_TOKEN)
 │   ├── lazygit/                   # LazyGit TUI (delta diff pager)
 │   ├── matugen/                   # Material color-scheme generator (dynamic niri/ghostty themes)
-│   ├── neovim/                    # Neovim (oil.nvim, fzf-lua, mini.pairs, catppuccin)
 │   ├── niri/                      # niri compositor raw KDL config
 │   ├── noctalia/                  # Noctalia desktop shell (bar, lockscreen widgets, bongocat)
 │   │                              #  – drives matugen theming on wallpaper change
+│   ├── node/                      # Node.js + pnpm (npmrc, pnpm global dirs & PATH)
 │   ├── pi/                        # Pi coding agent
 │   ├── rime/                      # RIME (fcitx5) Shuangpin input schema
 │   ├── rust/                      # Rust toolchain via rust-overlay (rust-analyzer, rust-src)
@@ -91,7 +91,10 @@ Fish provides short abbreviations for these (`hm-modules/fish/default.nix`):
 
 | Package | Description |
 |---------|-------------|
+| [GNU Make](https://www.gnu.org/software/make/) | Build tool |
+| [Python 3](https://www.python.org/) | Python interpreter |
 | [clang-tools](https://clang.llvm.org/) | C/C++ LSP (clangd) & tools |
+| [FFmpeg](https://ffmpeg.org/) | Audio/video transcoding |
 | [splayer](https://github.com/chiflix/splayerx) | Stream/online media player |
 | [hmcl](https://hmcl.huangyuhui.net/) | Hello Minecraft! Launcher |
 | [evtest](https://cgit.freedesktop.org/evtest/) | Input event debugging tool |
@@ -116,11 +119,12 @@ Fish provides short abbreviations for these (`hm-modules/fish/default.nix`):
 | [wl-screenrec](https://github.com/russelltg/wl-screenrec) | Wayland screen recorder (Rust) |
 | [slurp](https://github.com/emersion/slurp) | Wayland region selector (Rust) |
 | [uv](https://github.com/astral-sh/uv) | Python package manager (Rust) |
-| [fnm](https://github.com/Schniz/fnm) | Node.js version manager (Rust) |
+| [nodejs](https://nodejs.org/) + [pnpm](https://pnpm.io/) | Node.js runtime & package manager |
 | [mdcat](https://github.com/swsnr/mdcat) | Markdown renderer (Rust) |
 | [docker-compose](https://github.com/docker/compose) | Docker orchestration |
 | [gcc](https://gcc.gnu.org/) | C/C++ compiler |
 | [binutils](https://www.gnu.org/software/binutils/) | Binary utilities |
+| [unrar](https://www.rarlab.com/) | RAR extraction tool |
 
 ### Home Manager – Programs & Services
 
@@ -134,7 +138,6 @@ Fish provides short abbreviations for these (`hm-modules/fish/default.nix`):
 | [Ghostty](https://ghostty.org/) | GPU-accelerated terminal emulator (custom shaders, Matugen theme) |
 | [lazygit](https://github.com/jesseduffield/lazygit) | TUI git client (delta pager) |
 | [matugen](https://github.com/InioX/matugen) | Material color-scheme generator (dynamic niri/ghostty theming) |
-| [Neovim](https://neovim.io/) | Extensible code editor (catppuccin-mocha) |
 | [Noctalia](https://github.com/noctalia-dev/noctalia) | Desktop shell for COSMIC/niri (triggers matugen on wallpaper change) |
 | [Pi](https://pi.dev/) | Coding agent CLI/TUI |
 | [niri](https://github.com/YaLTeR/niri) | Scrollable-tiling Wayland compositor (Matugen-generated colors) |
@@ -142,7 +145,7 @@ Fish provides short abbreviations for these (`hm-modules/fish/default.nix`):
 | [tealdeer](https://github.com/tealdeer-rs/tealdeer) | tl;dr command cheatsheets (Rust) |
 | [Yazi](https://github.com/sxyazi/yazi) | Terminal file manager (Rust, rose-pine-moon) |
 | [Zed](https://zed.dev/) | High-performance code editor (DeepSeek agent) |
-| Rust toolchain | rust-overlay stable + rust-analyzer + rust-src |
+| Rust toolchain | rust-overlay stable (minimal profile) + rust-analyzer + rust-src |
 | [Aria2](https://aria2.github.io/) | Download manager with systemd user service (RPC :6800) |
 | [udiskie](https://github.com/coldfix/udiskie) | Auto-mounter for removable media |
 | ssh-agent | SSH key agent |
@@ -153,7 +156,7 @@ Fish provides short abbreviations for these (`hm-modules/fish/default.nix`):
 | Package / Service | Description |
 |-------------------|-------------|
 | [asusctl](https://gitlab.com/asus-linux/asusctl) | ASUS ROG laptop controls |
-| [Clash Verge](https://github.com/clash-verge-rev/clash-verge-rev) | Proxy client (TUN + service mode, autoStart) |
+| [Nyx](https://github.com/BX-Team/Nyx) | Proxy client (Clash-family GUI + systemd service mode) |
 | [Steam](https://store.steampowered.com/) | Gaming platform |
 | [Docker](https://www.docker.com/) | Container runtime (rootless) |
 | [libvirtd](https://libvirt.org/) + [virt-manager](https://virt-manager.org/) | VM management (QEMU/KVM + swtpm) |
