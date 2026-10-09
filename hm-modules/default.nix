@@ -38,8 +38,6 @@ in
 
   # 用户软件包
   home.packages = with pkgs; [
-    wineWow64Packages.stableFull
-    winetricks
     gnumake
     python3
     clang-tools
