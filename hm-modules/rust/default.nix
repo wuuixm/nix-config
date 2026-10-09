@@ -1,8 +1,8 @@
 { config, pkgs, inputs, ... }:
 
 let
-  rustToolchain = (inputs.rust-overlay.lib.mkRustBin { } pkgs).stable.latest.default.override {
-    extensions = [ "rust-analyzer" "rust-src" ];
+  rustToolchain = (inputs.rust-overlay.lib.mkRustBin { } pkgs).stable.latest.minimal.override {
+    extensions = [ "rust-analyzer" "rust-src" "rustfmt" "clippy" ];
   };
 in
 {
