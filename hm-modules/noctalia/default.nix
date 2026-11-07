@@ -7,8 +7,20 @@
 
   programs.noctalia = {
     enable = true;
+
+    package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs
+      (old: {
+        postPatch = (old.postPatch or "") + ''
+          f=src/shell/desktop/widgets/desktop_lyrics_widget.cpp
+          if grep -q 'std::ranges::shift_right' "$f"; then
+            substituteInPlace "$f" \
+              --replace-fail 'std::ranges::shift_right(rows, 1);' \
+                             'std::shift_right(rows.begin(), rows.end(), 1);'
+          fi
+        '';
+      });
+
     settings = {
-      # Absolute wallpaper and avatar paths are intentionally omitted.
 
       backdrop.enabled = true;
 
