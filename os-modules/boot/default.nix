@@ -15,7 +15,7 @@
       efiSysMountPoint = "/efi";
     };
   };
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages;
   boot.kernelParams = [
     "amdgpu.dcdebugmask=0x10"
   ];
